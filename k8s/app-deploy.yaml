@@ -1,0 +1,145 @@
+apiVersion: v1
+kind: Namespace
+
+metadata:
+  name: my-ns
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-svc
+  namespace: my-ns
+spec:
+  type: LoadBalancer # add LoadBalancer
+  selector:
+    app: my-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+kind: Secret
+apiVersion: v1
+
+metadata:
+  name: mysql-sec
+  namespace: my-ns
+
+type: opaque
+stringData:  # Use stringData to put plain text; K8s will encode it for you
+  host: "database-v1.cih84c6osdd0.us-east-1.rds.amazonaws.com"
+  user: "iam_user"
+  dbname: "devops_db" # Update this from 'mysql' to your new database name # Based on your 'show databases' output
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-dep
+  namespace: my-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-web
+  template:
+    metadata:
+      labels:
+        app: my-web
+    spec:
+      serviceAccountName: rds-auth-sa
+      containers:
+      - name: my-pod
+        image: yashmane108/simple-app:REPLACE_ME
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        # AWS RDS 
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: host
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: user
+      #  - name: DB_PASSWORD
+     #     valueFrom:
+    #        secretKeyRef:
+    #         name: mysql-sec
+     #         key: password
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: dbname
+        resources:
+          requests:
+            memory: "64Mi"   # Guaranteed 64 Megabytes
+            cpu: "100m"      # 10% of 1 CPU core
+          limits:
+            memory: "128Mi"  # Hard cap at 128 Megabytes
+            cpu: "500m"       # Max 50% of 1 CPU core
+        # --- ADD PROBES BELOW ---
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3      # Check every 15 seconds
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 30  # Start checking almost immediately
+          periodSeconds: 15        # Check often for traffic routing
+          timeoutSeconds: 5
+          failureThreshold: 3
+---
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+
+metadata:
+  name: my-hpa
+  namespace: my-ns
+
+spec:
+  scaleTargetRef:
+    name: my-dep
+    kind: Deployment
+    apiVersion: apps/v1
+
+  minReplicas: 1
+  maxReplicas: 4
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ing
+  namespace: my-ns
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-svc
+            port:
+              number: 80

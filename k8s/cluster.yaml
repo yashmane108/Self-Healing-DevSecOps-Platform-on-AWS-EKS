@@ -1,0 +1,17 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: devops-project-eks
+  region: us-east-1
+  version: "1.30" # Using a stable, modern K8s version
+
+managedNodeGroups:
+  - name: standard-nodes
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    volumeSize: 20
+    ssh:
+      allow: true # This allows you to SSH into nodes if needed for debugging
