@@ -1,1 +1,36 @@
-<h1>DevOps Project - CI/CD Working With Github Hooks, Ingress Controller</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple JS Web</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 10px; shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: left; }
+        h1 { color: #1a73e8; }
+        #clock { font-size: 2rem; font-weight: bold; margin-top: 1rem; color: #5f6368; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Welcome to Kubernetes</h1>
+        <p>This app is running behind:</p>
+        <ul>
+            <li>Docker</li>
+            <li>K8s (Ingress Controller)</li>
+            <li>Jenkins (Shared Lib, Env, WebHooks)</li>
+            <li>AWS: EC2, RDS</li>
+        </ul>
+        <div id="clock">00:00:00</div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
