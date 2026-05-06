@@ -10,7 +10,7 @@ metadata:
   name: my-svc
   namespace: my-ns
 spec:
-  type: LoadBalancer # add LoadBalancer
+  type: ClusterIP # add LoadBalancer
   selector:
     app: my-web
   ports:
