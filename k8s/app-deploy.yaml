@@ -26,9 +26,11 @@ metadata:
   namespace: my-ns
 
 type: opaque
-stringData:  # Use stringData to put plain text; K8s will encode it for you
+data:
+#stringData:  # Use stringData to put plain text; K8s will encode it for you
   host: "database-v1.cih84c6osdd0.us-east-1.rds.amazonaws.com"
-  user: "iam_user"
+  #user: "iam_user" # for IAM Auth when use Load Balancer
+  user: "admin"
   dbname: "devops_db" # Update this from 'mysql' to your new database name # Based on your 'show databases' output
   password: "Success2026!"
 ---
@@ -47,7 +49,7 @@ spec:
       labels:
         app: my-web
     spec:
-      serviceAccountName: rds-auth-sa
+#      serviceAccountName: rds-auth-sa
       containers:
       - name: my-pod
         image: yashmane108/simple-app:REPLACE_ME
