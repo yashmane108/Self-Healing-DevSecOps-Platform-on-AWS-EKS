@@ -10,7 +10,7 @@ metadata:
   name: my-svc
   namespace: my-ns
 spec:
-  type: ClusterIP # add LoadBalancer
+  type: LoadBalancer # add LoadBalancer
   selector:
     app: my-web
   ports:
@@ -27,12 +27,11 @@ metadata:
 
 type: opaque
 data:
-#stringData:  # Use stringData to put plain text; K8s will encode it for you
+stringData:  # Use stringData to put plain text; K8s will encode it for you
   host: "database-v1.cih84c6osdd0.us-east-1.rds.amazonaws.com"
-  #user: "iam_user" # for IAM Auth when use Load Balancer
-  user: "admin"
+  user: "iam_user" # for IAM Auth when use Load Balancer
+#  user: "admin"
   dbname: "devops_db" # Update this from 'mysql' to your new database name # Based on your 'show databases' output
-  password: "Success2026!"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -49,7 +48,7 @@ spec:
       labels:
         app: my-web
     spec:
-#      serviceAccountName: rds-auth-sa
+      serviceAccountName: rds-auth-sa
       containers:
       - name: my-pod
         image: yashmane108/simple-app:REPLACE_ME
@@ -68,11 +67,7 @@ spec:
             secretKeyRef:
               name: mysql-sec
               key: user
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-             name: mysql-sec
-              key: password
+        # Pass
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
