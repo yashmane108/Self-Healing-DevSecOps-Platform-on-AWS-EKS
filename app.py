@@ -63,7 +63,7 @@ HTML_TEMPLATE = """
                 <li>🐳 Docker: Ingress-> Load Balancer, Probes, Resource: Request and Limit, Multi-Stage Dockerfile</li>
                 <li>☸️ Prometheus  </li>
                 <li>📊 Grafana  </li>
-                <li>🤫 DevSecOps Tools: GitLeaks, SonarQube, Trivy</li>
+                <li>🤫 DevSecOps Tools: GitLeaks, SonarQube, Trivy(Install First)</li>
                 <li>🤖 Jenkins: Shared Lib, Cred, Env Var, (IAM IRSA Integration)</li>
                 <li>☁️ AWS: EC2, VPC, RDS (IAM Auth Enabled), EKS (Load Balancer)</li>
                 
