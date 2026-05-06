@@ -4,7 +4,9 @@ FROM python:3.9-slim AS builder
 WORKDIR /build
 
 # Install compiler tools needed to build certain Python packages
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
     gcc \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
