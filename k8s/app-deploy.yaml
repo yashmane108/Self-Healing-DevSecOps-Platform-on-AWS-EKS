@@ -111,7 +111,7 @@ spec:
     kind: Deployment
     apiVersion: apps/v1
 
-  minReplicas: 1
+  minReplicas: 0
   maxReplicas: 2
 
   metrics:
