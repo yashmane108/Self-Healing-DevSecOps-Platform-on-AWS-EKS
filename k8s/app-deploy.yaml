@@ -48,8 +48,6 @@ spec:
       labels:
         app: my-web
     spec:
-      securityContext:
-        runAsNonRoot: true
       serviceAccountName: rds-auth-sa
       containers:
       - name: my-pod
@@ -57,6 +55,7 @@ spec:
         securityContext:
           privileged: false
           allowPrivilegeEscalation: false
+          runAsNonRoot: true
         imagePullPolicy: Always
         ports:
         - containerPort: 80
