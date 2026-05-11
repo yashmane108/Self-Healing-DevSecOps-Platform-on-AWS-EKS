@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-dep
+  namespace: my-ns
+
+spec:
+  replicas: {{ .Value.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: my-web
+
+  template:
+    metadata:
+      labels:
+        app: my-web
+    spec:
+      serviceAccountName: rds-auth-sa
+      containers:
+      - name: my-pod
+        image: "{{ .Value.image.repository}}:{{ .Value.image.tag}}"
+        {{- with .Values.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
+
+
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        # AWS RDS
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: host
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: user
+        # Pass
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: dbname
+        resources:
+          requests:
+            memory: "64Mi"   # Guaranteed 64 Megabytes
+            cpu: "100m"      # 10% of 1 CPU core
+          limits:
+            memory: "128Mi"  # Hard cap at 128 Megabytes
+            cpu: "500m"       # Max 50% of 1 CPU core
+        # --- ADD PROBES BELOW ---
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3      # Check every 15 seconds
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 30  # Start checking almost immediately
+          periodSeconds: 15        # Check often for traffic routing
+          timeoutSeconds: 5
+          failureThreshold: 3
