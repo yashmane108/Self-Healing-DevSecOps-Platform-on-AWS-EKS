@@ -158,7 +158,7 @@ volumeMounts: []
 
 database:
   host: "database-v1.cih84c6osdd0.us-east-1.rds.amazonaws.com"  # Replace with your actual RDS Endpoint
-  user: "iam_user"                      # Your DB username
+  user: "admin"                      # Your DB username
   dbName: "devops_db"                # Your DB name
   # We won't put the password here for security. 
   # We will pull it from the 'mysql-sec' secret you already created.
