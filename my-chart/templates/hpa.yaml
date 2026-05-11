@@ -2,12 +2,12 @@ kind: HorizontalPodAutoscaler
 apiVersion: autoscaling/v2
 
 metadata:
-  name: my-hpa
-  namespace: my-ns
+  name: helm-hpa
+  namespace: helm-ns
 
 spec:
   scaleTargetRef:
-    name: my-dep
+    name: helm-dep
     kind: Deployment
     apiVersion: apps/v1
 
