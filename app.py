@@ -8,7 +8,9 @@ app = Flask(__name__)
 # Fetch environment variables from K8s
 DB_HOST = os.environ.get('DB_HOST')
 DB_USER = os.environ.get('DB_USER')
+DB_PASSWORD = os.environ.get('DB_PASSWORD')
 DB_NAME = os.environ.get('DB_NAME', 'devops_db')
+
 REGION = "us-east-1"
 
 def get_conn():
@@ -24,7 +26,7 @@ def get_conn():
     return pymysql.connect(
         host=DB_HOST,
         user=DB_USER,
-        password="QWRtaW5AJCUxMjM=",
+        password=DB_PASSWORD,
         database=DB_NAME,
         port=3306,
  #       ssl={'ca': 'global-bundle.pem'},
