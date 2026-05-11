@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: my-ing
-  namespace: my-ns
+  name: helm-ing
+  namespace: helm-ns
 #  annotations:
 #    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -14,6 +14,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: my-svc
+            name: helm-svc
             port:
               number: 80
