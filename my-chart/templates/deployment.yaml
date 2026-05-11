@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-dep
-  namespace: my-ns
+  name: helm-dep
+  namespace: helm-ns
 
 spec:
   replicas: {{ .Value.replicaCount }}
 
   selector:
     matchLabels:
-      app: my-web
+      app: helm-web
 
   template:
     metadata:
       labels:
-        app: my-web
+        app: helm-web
     spec:
-      serviceAccountName: rds-auth-sa
+   #   serviceAccountName: rds-auth-sa
       containers:
-      - name: my-pod
+      - name: helm-pod
         image: "{{ .Value.image.repository}}:{{ .Value.image.tag}}"
         {{- with .Values.securityContext }}
         securityContext:
