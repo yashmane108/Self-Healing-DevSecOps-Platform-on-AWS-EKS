@@ -24,12 +24,12 @@ def get_conn():
     return pymysql.connect(
         host=DB_HOST,
         user=DB_USER,
-        password=token,
+        password="QWRtaW5AJCUxMjM=",
         database=DB_NAME,
         port=3306,
-        ssl={'ca': 'global-bundle.pem'},
+ #       ssl={'ca': 'global-bundle.pem'},
         charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor,
+  #      cursorclass=pymysql.cursors.DictCursor,
         connect_timeout=5
     ) 
 
