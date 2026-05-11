@@ -25,7 +25,6 @@ spec:
           {{- toYaml . | nindent 12 }}
         {{- end }}
 
-
         imagePullPolicy: Always
         ports:
         - containerPort: 80
