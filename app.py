@@ -13,14 +13,14 @@ DB_NAME = os.environ.get('DB_NAME', 'devops_db')
 REGION = "us-east-1"
 
 def get_conn():
-    rds_client = boto3.client('rds', region_name=REGION)
-    # gitleaks:allow
-    token = rds_client.generate_db_auth_token(
-        DBHostname=DB_HOST, 
-        Port=3306, 
-        DBUsername=DB_USER,
-        Region=REGION
-    )
+    # rds_client = boto3.client('rds', region_name=REGION)
+    # # gitleaks:allow
+    # token = rds_client.generate_db_auth_token(
+    #     DBHostname=DB_HOST, 
+    #     Port=3306, 
+    #     DBUsername=DB_USER,
+    #     Region=REGION
+    # )
     
     return pymysql.connect(
         host=DB_HOST,
@@ -30,7 +30,7 @@ def get_conn():
         port=3306,
  #       ssl={'ca': 'global-bundle.pem'},
         charset='utf8mb4',
-  #      cursorclass=pymysql.cursors.DictCursor,
+        cursorclass=pymysql.cursors.DictCursor,
         connect_timeout=5
     ) 
 
