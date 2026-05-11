@@ -4,7 +4,7 @@
       {
          "Effect": "Allow",
          "Action": ["rds-db:connect"],
-         "Resource": ["arn:aws:rds-db:us-east-1:362552858462:dbuser:db-3KTCJNV6STO2UZPWXINKSWVC5Q/admin"]
+         "Resource": ["arn:aws:rds-db:us-east-1:362552858462:dbuser:db-3KTCJNV6STO2UZPWXINKSWVC5Q/iam_user"]
       }
    ]
 }
