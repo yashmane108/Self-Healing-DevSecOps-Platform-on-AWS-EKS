@@ -41,11 +41,11 @@ spec:
               name: mysql-sec
               key: user
         # Pass
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-sec
-              key: password
+        # - name: DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: mysql-sec
+        #       key: password
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
