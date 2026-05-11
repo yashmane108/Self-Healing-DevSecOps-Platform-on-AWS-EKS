@@ -16,7 +16,7 @@ spec:
       labels:
         app: helm-web
     spec:
-   #   serviceAccountName: rds-auth-sa
+      serviceAccountName: helm-rds-auth-sa
       containers:
       - name: helm-pod
         image: "{{ .Values.image.repository}}:{{ .Values.image.tag}}"
