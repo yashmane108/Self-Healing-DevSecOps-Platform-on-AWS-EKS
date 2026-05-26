@@ -2,7 +2,7 @@
 
 
 
-install docker and add current login (any as you wish) user
+install docker and add current login user
 
 ```
 sudo apt-get update
