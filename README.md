@@ -179,9 +179,6 @@ check where ingress-controller run on control-plane or on which worker:
 ---
 
 
-
-upload app-deploy.yaml on github [﻿github.com/yashmane108/simple-index.git](https://github.com/yashmane108/simple-index.git) 
-
 Run this to create resources
 
 ```
