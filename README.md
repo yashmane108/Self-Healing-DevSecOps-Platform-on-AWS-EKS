@@ -1,8 +1,4 @@
-
-
-
-
-install docker and add current login user
+Install docker and add current login user
 
 ```
 sudo apt-get update
@@ -18,7 +14,7 @@ sudo apt update
 sudo apt install fontconfig openjdk-21-jre
 java -version 
 ```
-jenkins
+Jenkins
 
 ```
 sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
